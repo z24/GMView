@@ -1,9 +1,9 @@
 Graph Match Viewer: Visualize Graph Matching
 
+released under GPL
+
 Demo
-1. Download data package at http://cse.sc.edu/~zhou42/data/GMView-data.tgz
-2. Extract the package at the root directory of the viewer
-3. Open GMView.html
+http://www.cse.sc.edu/~zhou42/data/GMView/GMView.html
 
 Usage
 You need to provide three text files (I use demo files as examples):
