@@ -1,0 +1,25 @@
+Graph Match Viewer: Visualize Graph Matching
+
+Demo
+1. Download data package at http://cse.sc.edu/~zhou42/data/GMView-data.tgz
+2. Extract the package at the root directory of the viewer
+3. Open GMView.html
+
+Usage
+You need to provide three text files (I use demo files as examples):
+00.xy               graph vertex coordinates for the 1st graph
+01.xy               graph vertex coordinates for the 2nd graph
+00-01-n10-d80.M     matched vertexes in the 2nd graph
+                    for vertexes in the 1st graph
+
+Then click Go, vertex labels will be shown in both graphs.
+Red labels means unmatched vertexes in the 1st graph.
+Blue labels means unmatched vertexes in the 2nd graph.
+
+Single left-click on labels will highlight matched vertexes in another graph.
+Double left-click on images will remove the highlight.
+
+To visualize your own images, please modify the <img> tags in
+GMView.html directly.
+
+Youjie Zhou // z24.me

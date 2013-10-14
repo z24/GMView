@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="GMView.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="js/jquery.parse.min.js"></script>
+    <script src="js/raphael-min.js"></script>
+    <script src="GMView.js"></script>
+    <script>
+      $(document).ready(Init);
+    </script>
+  </head>
+  <body>
+    <table>
+      <!-- <tr> -->
+      <!--   <td> -->
+      <!--     Image -->
+      <!--   </td> -->
+      <!--   <td> -->
+      <!--     <input id="fileL" type="file"/> -->
+      <!--   </td> -->
+      <!--   <td> -->
+      <!--     <input id="fileR" type="file"/> -->
+      <!--   </td> -->
+      <!-- </tr> -->
+      <tr>
+        <td>
+          Graph
+        </td>
+        <td>
+          <input id="ccL" type="file"/>
+        </td>
+        <td>
+          <input id="ccR" type="file"/>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Match
+        </td>
+        <td colspan="2" align="center">
+          <input id="M" type="file"/>
+        </td>
+      </tr>
+    </table>
+    <p>
+      <button id="go">Go!</button>
+    </p>
+    <table>
+      <tr>
+        <td align="center">Image 1</td>
+        <td align="center">Image 2</td>
+      </tr>
+      <tr>
+        <td>
+          <div id="container">
+            <img id="imgL" src="data/00.png" alt="image1"></img>
+            <div id="divL"></div>
+          </div>
+        </td>
+        <td>
+          <div id="container">
+            <img id="imgR" src="data/01.png" alt="image2"></img>
+            <div id="divR"></div>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
