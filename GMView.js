@@ -17,9 +17,10 @@ function Init()
 
     $("#M").change("M",LoadData);
 
-    $("#go").click(main);
-    $("#goE").click(DrawEdge);
-    $("#delE").click(ClearEdge);
+    $("#btGo").click(main);
+    $("#btE").click(DrawEdge);
+    $("#btEdel").click(ClearEdge);
+    $("#btSave").click(Save);
 
     $("#visLv").dblclick(ClearPick);
     $("#visRv").dblclick(ClearPick);
@@ -311,6 +312,39 @@ function ClearPick()
         pickA.remove();
     if(pickB != undefined)
         pickB.remove();
+}
+//------------------------------------------------------------------------------
+function img2svg(id)
+{
+    var tag = $(id);
+    var svg = "<image width=\""+tag.width()+"\" height=\""+tag.height()+"\" xlink:href=\""+tag.attr("src")+"\"/>";
+    return svg;
+}
+//------------------------------------------------------------------------------
+function Save()
+{
+    if(paperLv==undefined || paperRv==undefined)
+        return;
+
+    var svgL = "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">";
+    svgL += img2svg("#imgL") + "\n";
+    svgL += paperLv.toSVG() + "\n";
+    svgL += "</svg>";
+
+    var svgR = "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">";
+    svgR += img2svg("#imgR") + "\n";
+    svgR += paperRv.toSVG() + "\n";
+    svgR += "</svg>";
+
+    var bin = btoa(unescape(encodeURIComponent(svgL)));
+    $("#lnkL").remove();
+    var lnk = $('<p><a id="lnkL" href-lang="image/svg+xml" href="data:image/svg+xml;base64,'+bin+'">Left Image</a></p>');
+    lnk.appendTo("#command");
+
+    var bin = btoa(unescape(encodeURIComponent(svgR)));
+    $("#lnkR").remove();
+    var lnk = $('<p><a id="lnkR" href-lang="image/svg+xml" href="data:image/svg+xml;base64,'+bin+'">Right Image</a></p>');
+    lnk.appendTo("#command");
 }
 //------------------------------------------------------------------------------
 function main()

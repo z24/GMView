@@ -5,6 +5,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="js/jquery.parse.min.js"></script>
     <script src="js/raphael-min.js"></script>
+    <script src="js/raphael.export.js"></script>
     <script src="GMView.js"></script>
     <script>
       $(document).ready(Init);
@@ -80,10 +81,11 @@
         </td>
       </tr>
     </table>
-    <p>
-      <button id="go">Go!</button>
-      <button id="goE">Show Edges</button>
-      <button id="delE">Clear Edges</button>
+    <p id="command">
+      <button id="btGo">Go!</button><br/>
+      <button id="btE">Show Edges</button>
+      <button id="btEdel">Clear Edges</button><br/>
+      <button id="btSave">Export</button>
     </p>
     <table>
       <tr>
