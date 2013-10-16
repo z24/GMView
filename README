@@ -6,11 +6,13 @@ Demo
 http://www.cse.sc.edu/~zhou42/data/GMView/GMView.html
 
 Usage
-You need to provide three text files (I use demo files as examples):
-00.xy               graph vertex coordinates for the 1st graph
-01.xy               graph vertex coordinates for the 2nd graph
-00-01-n10-d80.M     matched vertexes in the 2nd graph
-                    for vertexes in the 1st graph
+You need to provide text files describing graphs and the match:
+00.V     graph vertex coordinates in the 1st graph
+01.V     graph vertex coordinates in the 2nd graph
+00.E     graph edges in the 1st graph
+01.E     graph edges in the 2nd graph
+00-01.M  matched vertexes in the 2nd graph
+         for vertexes in the 1st graph
 
 Then click Go, vertex labels will be shown in both graphs.
 Red labels means unmatched vertexes in the 1st graph.
@@ -18,6 +20,8 @@ Blue labels means unmatched vertexes in the 2nd graph.
 
 Single left-click on labels will highlight matched vertexes in another graph.
 Double left-click on images will remove the highlight.
+
+Click on 'Show Edges' will show graph edges in both graphs.
 
 To visualize your own images, please modify the <img> tags in
 GMView.html directly.
