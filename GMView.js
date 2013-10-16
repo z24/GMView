@@ -7,18 +7,24 @@ function Init()
         return;
     }
 
-    $("#ccL").change("ccL",LoadData);
-    $("#ccR").change("ccR",LoadData);
-    $("#M").change("M",LoadData);
-    $("#go").click(main);
+    $("#vL").change("vL",LoadData);
+    $("#vR").change("vR",LoadData);
+    $("#eL").change("eL",LoadData);
+    $("#eR").change("eR",LoadData);
 
-    $("#divL").dblclick(ClearPick);
-    $("#divR").dblclick(ClearPick);
+    $("#M").change("M",LoadData);
+
+    $("#go").click(main);
+    $("#goE").click(DrawEdge);
+    $("#delE").click(ClearEdge);
+
+    $("#visLv").dblclick(ClearPick);
+    $("#visRv").dblclick(ClearPick);
 }
 //------------------------------------------------------------------------------
-var ccL; // node centers for left graph
-var ccR; // node centers for right graph
-var M;   // matched right graph nodes
+var vL,eL;
+var vR,eR;
+var M;
 //------------------------------------------------------------------------------
 function LoadData(event)
 {
@@ -32,23 +38,51 @@ function LoadData(event)
         buff = ev.target.result;
         switch(opt)
         {
-        case "ccL":
+        case "vL":
             buff = $.parse(buff,{delimiter:"\t",header:false,dynamicTyping:true});
             if(buff.errors.length>0)
             {
                 alert("Read "+file.name+" failed.");
                 return;
             }
-            ccL = buff.results;
+            vL = buff.results;
             break;
-        case "ccR":
+        case "vR":
             buff = $.parse(buff,{delimiter:"\t",header:false,dynamicTyping:true});
             if(buff.errors.length>0)
             {
                 alert("Read "+file.name+" failed.");
                 return;
             }
-            ccR = buff.results;
+            vR = buff.results;
+            break;
+        case "eL":
+            buff = $.parse(buff,{delimiter:"\t",header:false,dynamicTyping:true});
+            if(buff.errors.length>0)
+            {
+                alert("Read "+file.name+" failed.");
+                return;
+            }
+            eL = buff.results;
+            for(var i=0;i<eL.length;i++)
+            {
+                eL[i][0]--;
+                eL[i][1]--;
+            }
+            break;
+        case "eR":
+            buff = $.parse(buff,{delimiter:"\t",header:false,dynamicTyping:true});
+            if(buff.errors.length>0)
+            {
+                alert("Read "+file.name+" failed.");
+                return;
+            }
+            eR = buff.results;
+            for(var i=0;i<eR.length;i++)
+            {
+                eR[i][0]--;
+                eR[i][1]--;
+            }
             break;
         case "M":
             buff = $.parse(buff,{delimiter:"\t",header:false,dynamicTyping:true});
@@ -59,7 +93,7 @@ function LoadData(event)
             }
             M = buff.results;
             for(var i=0;i<M.length;i++)
-                M[i] = M[i][0];
+                M[i] = M[i][0] - 1; // assume indexes in M start from 1
             break;
         }
     };
@@ -67,67 +101,67 @@ function LoadData(event)
     reader.readAsText(file);
 }
 //------------------------------------------------------------------------------
-var paperL;
-var paperR;
+var paperLv,paperLe;
+var paperRv,paperRe;
 //------------------------------------------------------------------------------
 function DrawLabel()
 {
-    if(paperL==undefined || paperR==undefined)
+    if(paperLv==undefined || paperRv==undefined)
         return;
     
-    for(var i=0;i<ccL.length;i++)
+    for(var i=0;i<vL.length;i++)
     {
-        var t = paperL.text(ccL[i][0],ccL[i][1],i.toString());
+        var t = paperLv.text(vL[i][0],vL[i][1],i.toString());
         t.attr("stroke","#f00");
     }
-    for(var i=0;i<ccR.length;i++)
+    for(var i=0;i<vR.length;i++)
     {
-        var t = paperR.text(ccR[i][0],ccR[i][1],i.toString());
+        var t = paperRv.text(vR[i][0],vR[i][1],i.toString());
         t.attr("stroke","#00f");
     }
 }
 //------------------------------------------------------------------------------
 function DrawCompare()
 {
-    if(paperL==undefined || paperR==undefined)
+    if(paperLv==undefined || paperRv==undefined)
         return;
 
     var i = 0;
     
-    for(;i<ccL.length;i++)
+    for(;i<vL.length;i++)
     {
         var tL,tR;
         
         var m = M[i];
-        if(m<ccR.length)
+        if(m<vR.length)
         {
-            tL = paperL.text(ccL[i][0],ccL[i][1],i.toString());
-            tR = paperR.text(ccR[m][0],ccR[m][1],i.toString());
+            tL = paperLv.text(vL[i][0],vL[i][1],i.toString());
+            tR = paperRv.text(vR[m][0],vR[m][1],i.toString());
 
             tL.attr("stroke","#000");
             tR.attr("stroke","#000");
         }
         else
         {
-            tL = paperL.text(ccL[i][0],ccL[i][1],i.toString());
+            tL = paperLv.text(vL[i][0],vL[i][1],i.toString());
             tL.attr("stroke","#f00");
         }
 
         tL.node.id      = "L"+i;
         tL.node.onclick = DrawPick;
         
-        if(m<ccR.length)
+        if(m<vR.length)
         {
             tR.node.id      = "R"+m;
             tR.node.onclick = DrawPick;
         }
     }
-    for(var j=0;j<ccR.length;j++)
+    for(var j=0;j<vR.length;j++)
     {
         var inxL = M.indexOf(j);
-        if(inxL>=ccL.length)
+        if(inxL>=vL.length)
         {
-            var t = paperR.text(ccR[j][0],ccR[j][1],i.toString());
+            var t = paperRv.text(vR[j][0],vR[j][1],i.toString());
             t.attr("stroke","#00f");
             
             t.node.id      = "R"+j;
@@ -136,6 +170,43 @@ function DrawCompare()
             i ++;
         }
     }
+}
+//------------------------------------------------------------------------------
+function DrawEdge()
+{
+    if(paperLe==undefined || paperRe==undefined)
+        return;
+
+    for(var i=0;i<eL.length;i++)
+    {
+        var x0 = vL[eL[i][0]][0];
+        var y0 = vL[eL[i][0]][1];
+        var x1 = vL[eL[i][1]][0];
+        var y1 = vL[eL[i][1]][1];
+
+        var l = paperLe.path("M"+x0+","+y0+"L"+x1+","+y1);
+        l.attr("stroke","#009f75");
+        l.attr("stroke-width",2);
+    }
+    for(var i=0;i<eR.length;i++)
+    {
+        var x0 = vR[eR[i][0]][0];
+        var y0 = vR[eR[i][0]][1];
+        var x1 = vR[eR[i][1]][0];
+        var y1 = vR[eR[i][1]][1];
+
+        var l = paperRe.path("M"+x0+","+y0+"L"+x1+","+y1);
+        l.attr("stroke","#009f75");
+        l.attr("stroke-width",2);
+    }
+}
+//------------------------------------------------------------------------------
+function ClearEdge()
+{
+    if(paperLe != undefined)
+        paperLe.clear();
+    if(paperRe != undefined)
+        paperRe.clear();
 }
 //------------------------------------------------------------------------------
 var pickA,pickB;
@@ -167,22 +238,22 @@ function DrawPick(event)
     
     if(onL)
     {
-        paperA = paperL;
-        paperB = paperR;
+        paperA = paperLv;
+        paperB = paperRv;
 
         inxB = M[inxA];
 
-        if(inxB < ccR.length)
+        if(inxB < vR.length)
             tB = $("#R"+inxB);
     }
     else
     {
-        paperA = paperR;
-        paperB = paperL;
+        paperA = paperRv;
+        paperB = paperLv;
 
         inxB = M.indexOf(inxA);
 
-        if(inxB>=0 && inxB<ccL.length)
+        if(inxB>=0 && inxB<vL.length)
             tB = $("#L"+inxB);
     }
 
@@ -202,12 +273,12 @@ function ClearPick()
 //------------------------------------------------------------------------------
 function main()
 {
-    if(ccL == undefined)
+    if(vL == undefined)
     {
         alert("Nodes in left graph are missing.");
         return;
     }
-    if(ccR == undefined)
+    if(vR == undefined)
     {
         alert("Nodes in right graph are missing.");
         return;
@@ -218,7 +289,7 @@ function main()
         return;
     }
 
-    if(paperL == undefined && paperR == undefined)
+    if(paperLv == undefined && paperRv == undefined)
     {
         var imgL = $("#imgL");
         var imgR = $("#imgR");
@@ -226,13 +297,30 @@ function main()
         imgL.error(function(){alert("Left image is not loaded.")});
         imgR.error(function(){alert("Right image is not loaded.")});
 
-        paperL = Raphael("divL",imgL.width(),imgL.height());
-        paperR = Raphael("divR",imgR.width(),imgR.height());
+        paperLv = Raphael("visLv",imgL.width(),imgL.height());
+        paperRv = Raphael("visRv",imgR.width(),imgR.height());
     }
     else
     {
-        paperL.clear();
-        paperR.clear();
+        paperLv.clear();
+        paperRv.clear();
+    }
+
+    if(paperLe == undefined && paperRe == undefined)
+    {
+        var imgL = $("#imgL");
+        var imgR = $("#imgR");
+        
+        imgL.error(function(){alert("Left image is not loaded.")});
+        imgR.error(function(){alert("Right image is not loaded.")});
+
+        paperLe = Raphael("visLe",imgL.width(),imgL.height());
+        paperRe = Raphael("visRe",imgR.width(),imgR.height());
+    }
+    else
+    {
+        paperLe.clear();
+        paperRe.clear();
     }
     
     DrawCompare();

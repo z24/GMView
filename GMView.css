@@ -4,13 +4,25 @@ table,td
     border-collapse:collapse;
 }
 
-#container
+#boxL,#boxR
 {
     position:relative;
 }
-#divL,#divR
+#imgL,#imgR
+{
+    z-index:0;
+}
+#visLv,#visRv
 {
     position:absolute;
     left:0;
     top:0;
+    z-index:2;
+}
+#visLe,#visRe
+{
+    position:absolute;
+    left:0;
+    top:0;
+    z-index:1;
 }

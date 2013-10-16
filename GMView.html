@@ -12,31 +12,31 @@
   </head>
   <body>
     <table>
-      <!-- <tr> -->
-      <!--   <td> -->
-      <!--     Image -->
-      <!--   </td> -->
-      <!--   <td> -->
-      <!--     <input id="fileL" type="file"/> -->
-      <!--   </td> -->
-      <!--   <td> -->
-      <!--     <input id="fileR" type="file"/> -->
-      <!--   </td> -->
-      <!-- </tr> -->
       <tr>
         <td>
-          Graph
+          Graph Vertexes
         </td>
         <td>
-          <input id="ccL" type="file"/>
+          <input id="vL" type="file"/>
         </td>
         <td>
-          <input id="ccR" type="file"/>
+          <input id="vR" type="file"/>
         </td>
       </tr>
       <tr>
         <td>
-          Match
+          Graph Edges
+        </td>
+        <td>
+          <input id="eL" type="file"/>
+        </td>
+        <td>
+          <input id="eR" type="file"/>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Graph Match
         </td>
         <td colspan="2" align="center">
           <input id="M" type="file"/>
@@ -45,6 +45,8 @@
     </table>
     <p>
       <button id="go">Go!</button>
+      <button id="goE">Show Edges</button>
+      <button id="delE">Clear Edges</button>
     </p>
     <table>
       <tr>
@@ -53,15 +55,17 @@
       </tr>
       <tr>
         <td>
-          <div id="container">
+          <div id="boxL">
             <img id="imgL" src="data/00.png" alt="image1"></img>
-            <div id="divL"></div>
+            <div id="visLv"></div>
+            <div id="visLe"></div>
           </div>
         </td>
         <td>
-          <div id="container">
+          <div id="boxR">
             <img id="imgR" src="data/01.png" alt="image2"></img>
-            <div id="divR"></div>
+            <div id="visRv"></div>
+            <div id="visRe"></div>
           </div>
         </td>
       </tr>
