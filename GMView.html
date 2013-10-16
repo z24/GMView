@@ -9,9 +9,46 @@
     <script>
       $(document).ready(Init);
     </script>
+    <title>Graph Match Viewer</title>
   </head>
   <body>
+    <p>
+      <h4>Instruction</h4>
+      <ol>
+        <li>Download demo data
+          <ul>
+            <li>two underlying images: <a href="data/00.png">00.png</a> and <a href="data/01.png">01.png</a></li>
+            <li>vertexes of two graphs: <a href="data/00.V">00.V</a> and <a href="data/01.V">01.V</a></li>
+            <li>edges of two graphs: <a href="data/00.E">00.E</a> and <a href="data/01.E">01.E</a></li>
+            <li>graph match results: <a href="data/00-01.M">00-01.M</a></li>
+          </ul>
+        </li>
+        <li>Upload images</li>
+        <li>Upload graph vertexes and edges into cooresponding boxes below</li>
+        <li>Click 'Go' button will visualize vertex labels</li>
+        <li>Click on each vertex label will highlight its matched vertex in another graph</li>
+        <li>Double-click on the image will remove the highlight</li>
+        <li>Click 'Show Edges' button will visualize graph edges</li>
+        <li>You can zoom in and zoom out using your browser</li>
+      </ol>
+    </p>
     <table>
+      <tr>
+        <td></td>
+        <td>Left Graph</td>
+        <td>Right Graph</td>
+      </tr>
+      <tr>
+        <td>
+          Underlying Images
+        </td>
+        <td>
+          <input id="iL" type="file"/>
+        </td>
+        <td>
+          <input id="iR" type="file"/>
+        </td>
+      </tr>
       <tr>
         <td>
           Graph Vertexes
@@ -50,20 +87,17 @@
     </p>
     <table>
       <tr>
-        <td align="center">Image 1</td>
-        <td align="center">Image 2</td>
-      </tr>
-      <tr>
         <td>
           <div id="boxL">
-            <img id="imgL" src="data/00.png" alt="image1"></img>
+            <div id="visL"></img>
             <div id="visLv"></div>
             <div id="visLe"></div>
           </div>
         </td>
+        <td></td>
         <td>
           <div id="boxR">
-            <img id="imgR" src="data/01.png" alt="image2"></img>
+            <div id="visR"></img>
             <div id="visRv"></div>
             <div id="visRe"></div>
           </div>

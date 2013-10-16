@@ -7,6 +7,9 @@ function Init()
         return;
     }
 
+    $("#iL").change("iL",LoadImage);
+    $("#iR").change("iR",LoadImage);
+    
     $("#vL").change("vL",LoadData);
     $("#vR").change("vR",LoadData);
     $("#eL").change("eL",LoadData);
@@ -22,6 +25,34 @@ function Init()
     $("#visRv").dblclick(ClearPick);
 }
 //------------------------------------------------------------------------------
+function LoadImage(event)
+{
+    var opt = event.data;
+
+    var file   = event.target.files[0];
+    var reader = new FileReader();
+
+    reader.onload = function(ev)
+    {
+        var buff = ev.target.result;
+        switch(opt)
+        {
+        case "iL":
+            $("#imgL").remove();
+            var img = $('<img id="imgL" src="'+buff+'">');
+            img.appendTo("#visL");
+            break;
+        case "iR":
+            $("#imgR").remove();
+            var img = $('<img id="imgR" src="'+buff+'">');
+            img.appendTo("#visR");
+            break;
+        }
+    };
+
+    reader.readAsDataURL(file);
+}
+//------------------------------------------------------------------------------
 var vL,eL;
 var vR,eR;
 var M;
@@ -35,7 +66,7 @@ function LoadData(event)
 
     reader.onload = function(ev)
     {
-        buff = ev.target.result;
+        var buff = ev.target.result;
         switch(opt)
         {
         case "vL":
@@ -177,6 +208,17 @@ function DrawEdge()
     if(paperLe==undefined || paperRe==undefined)
         return;
 
+    if(eL == undefined)
+    {
+        alert("Edges in left graph are missing.");
+        return;
+    }
+    if(eR == undefined)
+    {
+        alert("Edges in right graph are missing.");
+        return;
+    }
+
     for(var i=0;i<eL.length;i++)
     {
         var x0 = vL[eL[i][0]][0];
@@ -275,12 +317,12 @@ function main()
 {
     if(vL == undefined)
     {
-        alert("Nodes in left graph are missing.");
+        alert("Vertexes in left graph are missing.");
         return;
     }
     if(vR == undefined)
     {
-        alert("Nodes in right graph are missing.");
+        alert("Vertexes in right graph are missing.");
         return;
     }
     if(M == undefined)
